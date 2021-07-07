@@ -9,6 +9,8 @@ const { JSDOM } = jsdom;;
 const uri = "mongodb+srv://readWrite:rKsnW2pPLafbHHz@nodeloraapp.rguzt.mongodb.net/LEAPBITPraksJelenic?retryWrites=true&w=majority";
 
 
+const mqttServ = require('../websocket/mqtt')
+
 module.exports = {
     parseWebFromURL: (URL, collectionName) => {
         return new Promise((resolve, reject) => {
@@ -71,6 +73,9 @@ module.exports = {
                             jsonObj["drawTime"] = entry.drawTime;
                             jsonObj["winningNumbers"] = entry.winningNumbers;
                             listOfGames.push(jsonObj)
+
+                            //send to mqtt
+                            mqttServ.sendSlovak(JSON.stringify(jsonObj))
                         }
                     }
                     console.log(listOfGames);
