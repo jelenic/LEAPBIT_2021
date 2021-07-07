@@ -1,9 +1,12 @@
-var http = require('http');
-var request = require('request');
+let http = require('http');
+let request = require('request');
+
+let JSONparseService = require('../services/parsers/JSONparser')
+let webparseService = require('../services/parsers/webparser')
 
 
-function getGrckoKino(){
-    date = getDate()
+function getGrckoKinoR(){
+    let date = getDate()
     request({
         url: "http://localhost:4000/api/parse/json/" + date,
         method: "GET",
@@ -19,7 +22,7 @@ function getGrckoKino(){
     });
   }
 
-  function getSlovak(){
+  function getSlovakR(){
     request({
         url: "http://localhost:4000/api/parse/web",
         method: "GET",
@@ -32,6 +35,29 @@ function getGrckoKino(){
         }else{
             console.log('error' + response.statusCode);
         }
+    });
+  }
+
+  function getGrckoKino(){
+    let date = getDate()
+    const dynamicJSONURL = 'https://api.opap.gr/draws/v3.0/1100/draw-date/' + date + '/' + date + '?limit=50&page=0'
+    JSONparseService.parseJSONFromURL(dynamicJSONURL, process.env.GKC).then((data) => {
+        console.log("Grcko kino parsed")
+        //emit event here
+        console.log(data)
+    }).catch((err) => {
+        res.send(err.message);
+    });
+  }
+
+  function getSlovakKino(){
+    const URL = process.env.slovakKinoURL;
+    webparseService.parseWebFromURL(URL, process.env.GKC).then((data) => {
+        console.log("Slovak kino parsed")
+        //emit event here
+        console.log(data)
+    }).catch((err) => {
+        res.send(err.message);
     });
   }
 
@@ -48,5 +74,5 @@ function getDate(){
 }
 
 module.exports = {
-    getGrckoKino, getSlovak
+    getGrckoKinoR, getSlovakR, getGrckoKino, getSlovakKino
 }

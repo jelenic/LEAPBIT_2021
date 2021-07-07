@@ -1,4 +1,3 @@
-environment varijable
 reqList stavi direktno controller
 
 makni req res iz kontrolera

@@ -23,6 +23,8 @@ app.use('/api/', routes);
 app.listen(port, () => {
     Connection.open()
     console.info(`Server started on port ${port}`);
-    //let requestLoopGrckiKino = setInterval(reqList.getGrckoKino,60000)
-    //let requestLoopSlovak = setInterval(reqList.getSlovak,100000)
+    //let requestLoopGrckiKino = setInterval(reqList.getGrckoKinoR, 60000)
+    //let requestLoopSlovak = setInterval(reqList.getSlovakR, 100000)
+    let loopGrckoKino = setInterval(reqList.getGrckoKino, 65000)
+    let loopSlovakKino = setInterval(reqList.getSlovakKino, 10000)
 });
