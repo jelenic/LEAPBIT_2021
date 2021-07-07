@@ -12,7 +12,7 @@ module.exports = {
     else{
         const date = String(req.params.date)
         const dynamicJSONURL = 'https://api.opap.gr/draws/v3.0/1100/draw-date/' + date + '/' + date + '?limit=50&page=0'
-        JSONparseService.parseJSONFromURL(dynamicJSONURL, 'test').then((data) => {
+        JSONparseService.parseJSONFromURL(dynamicJSONURL, process.env.GKC).then((data) => {
             res.send(data);
         }).catch((err) => {
          res.send(err.message);
@@ -22,7 +22,7 @@ module.exports = {
    parseWebFromURL: (req, res) => {
 
     const URL = 'https://eklubkeno.etipos.sk/Archive.aspx';
-    webparseService.parseWebFromURL(URL, 'test2').then((data) => {
+    webparseService.parseWebFromURL(URL, process.env.SKC).then((data) => {
         res.send(data);
     }).catch((err) => {
         res.send(err.message);

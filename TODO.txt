@@ -1,0 +1,14 @@
+environment varijable
+reqList stavi direktno controller
+
+makni req res iz kontrolera
+
+dodaj web socket
+
+globalna metoda u serveru za event koji ce slusat ws i mqtt
+ON UN Event listener/emitter
+
+za web socket koristi socket.io
+
+
+mvvm vs mvc

@@ -21,19 +21,14 @@ module.exports = {
             const date = getDate();
             console.log(date)
             request.get(URL, async (err, response, body) => {
-                //console.log("in request get");
                 //await client.connect();
-                //console.log(err, body, response);
                 if (err) {
                     reject(err);
                 } else if (response && response.statusCode === 200) {
                     //tu treba parsat, spremit u db i poslat dalje
                     const raw = body;
-                    //console.log(typeof(raw))
                     const dom = new JSDOM(raw);
                     const queryResult1 = dom.window.document.querySelectorAll("div.container")
-                    //console.log(queryResult1);
-
 
                     const dom2 = new JSDOM(queryResult1[2].innerHTML)
                     const queryResult2 = dom2.window.document.querySelectorAll("div.closest")
@@ -60,7 +55,7 @@ module.exports = {
                     //const database = client.db('LEAPBITPraksJelenic');
                     //const colName = database.collection(collectionName);
 
-                    const database = Connection.db.db('LEAPBITPraksJelenic');
+                    const database = Connection.db.db(process.env.dbName);
                     const colName = database.collection(collectionName)
 
                     let listOfGames = []

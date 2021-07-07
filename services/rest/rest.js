@@ -13,7 +13,7 @@ module.exports = {
             //const client = new MongoClient(uri, { useUnifiedTopology: true });
             //await client.connect();
 
-            const database = Connection.db.db('LEAPBITPraksJelenic');
+            const database = Connection.db.db(process.env.dbName);
             const colName = database.collection(name);
             const result = await colName.find({}).toArray(function(error, documents) {
                 //console.log(documents)
@@ -25,7 +25,7 @@ module.exports = {
     },
     getSingleKinoDataQ: (name, minms) => {
         return new Promise(async (resolve, reject) => {
-            const database = Connection.db.db('LEAPBITPraksJelenic');
+            const database = Connection.db.db(process.env.dbName);
             const colName = database.collection(name);
             console.log(minms)
             const result = await colName.find({drawTime: {$gt: minms}}).toArray(function(error, documents) {
@@ -38,7 +38,7 @@ module.exports = {
     },
     getSingleDrawData: (name, ms) => {
         return new Promise(async (resolve, reject) => {
-            const database = Connection.db.db('LEAPBITPraksJelenic');
+            const database = Connection.db.db(process.env.dbName);
             const colName = database.collection(name);
             const result = await colName.findOne({drawTime: ms})
             if (result != null){

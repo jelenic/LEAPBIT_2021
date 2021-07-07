@@ -29,7 +29,7 @@ module.exports = {
                     //const database = client.db('LEAPBITPraksJelenic');
                     //const colName = database.collection(collectionName);
 
-                    const database = Connection.db.db('LEAPBITPraksJelenic');
+                    const database = Connection.db.db(process.env.dbName);
                     const colName = database.collection(collectionName);
 
                     for(const entry of content){

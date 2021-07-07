@@ -1,4 +1,7 @@
 const { MongoClient } = require("mongodb");
+const dotenv = require('dotenv');
+dotenv.config();
+
 
 class Connection {
 
@@ -13,7 +16,7 @@ class Connection {
 }
 
 Connection.db = null
-Connection.uri = "mongodb+srv://readWrite:rKsnW2pPLafbHHz@nodeloraapp.rguzt.mongodb.net/LEAPBITPraksJelenic?retryWrites=true&w=majority"
+Connection.uri = process.env.dbURI
 Connection.options = {
     bufferMaxEntries:   0,
     useNewUrlParser:    true,
