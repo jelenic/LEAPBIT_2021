@@ -1,7 +1,9 @@
 const request = require(`request`);
-const { MongoClient } = require("mongodb");
 
-const uri = "mongodb+srv://readWrite:rKsnW2pPLafbHHz@nodeloraapp.rguzt.mongodb.net/LEAPBITPraksJelenic?retryWrites=true&w=majority";
+//const { MongoClient } = require("mongodb");
+//const uri = "mongodb+srv://readWrite:rKsnW2pPLafbHHz@nodeloraapp.rguzt.mongodb.net/LEAPBITPraksJelenic?retryWrites=true&w=majority";
+
+const { Connection } = require('../../Classes/Connection')
 
 
 const mqttServ = require('../websocket/mqtt')
@@ -11,10 +13,10 @@ module.exports = {
     parseJSONFromURL: (URL, collectionName) => {
         return new Promise((resolve, reject) => {
             console.log("promise start")
-            const client = new MongoClient(uri, { useUnifiedTopology: true });
+            //const client = new MongoClient(uri, { useUnifiedTopology: true });
             request.get(URL, async (err, response, body) => {
                 //console.log("in request get");
-                await client.connect();
+                //await client.connect();
                 //console.log(err, body, response);
                 if (err) {
                     reject(err);
@@ -24,10 +26,12 @@ module.exports = {
                     let listOfGames = []
 
                     const content = jsonResponse.content;
-                    const database = client.db('LEAPBITPraksJelenic');
-                    //console.log(database);
+                    //const database = client.db('LEAPBITPraksJelenic');
+                    //const colName = database.collection(collectionName);
+
+                    const database = Connection.db.db('LEAPBITPraksJelenic');
                     const colName = database.collection(collectionName);
-                    //console.log(colName);
+
                     for(const entry of content){
                         const exists = await colName.findOne({drawTime: entry.drawTime})
                         if (exists != null){
