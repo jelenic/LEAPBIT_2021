@@ -14,6 +14,8 @@ module.exports = {
         return new Promise((resolve, reject) => {
             console.log("promise start")
             const client = new MongoClient(uri, { useUnifiedTopology: true });
+            const date = getDate();
+            console.log(date)
             request.get(URL, async (err, response, body) => {
                 //console.log("in request get");
                 await client.connect();
@@ -32,14 +34,13 @@ module.exports = {
                     const dom2 = new JSDOM(queryResult1[2].innerHTML)
                     const queryResult2 = dom2.window.document.querySelectorAll("div.closest")
                     const queryResult3 = dom2.window.document.querySelectorAll("div.numbers")
-                    //console.log(queryResult2[0].innerHTML)
-                    //console.log(queryResult3[0].innerHTML)
+
                     let list = []
                     for (let i=0; i<queryResult2.length; i++){
                         let jsonObj = {}
                         const dom3 = new JSDOM(queryResult2[i].innerHTML)
                         const dom4 = new JSDOM(queryResult3[i].innerHTML)
-                        jsonObj["drawTime"] = dom3.window.document.querySelectorAll("span")[1].innerHTML;
+                        jsonObj["drawTime"] = Date.parse(date + dom3.window.document.querySelectorAll("span")[1].innerHTML + ':00 GMT');
                         let listOfNums = []
                         
                         const queryResult4 = dom4.window.document.querySelectorAll("span");
@@ -92,3 +93,17 @@ module.exports = {
 
     },
 };
+
+
+
+function getDate(){
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let mmS = monthNames[today.getMonth()]
+    let yyyy = today.getFullYear();
+
+    today = dd + ' ' + mmS + ' ' + yyyy + ' ';
+    return today;
+}
