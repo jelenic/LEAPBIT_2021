@@ -48,6 +48,7 @@ function sendLastMessage () {
 function sendLastOrigin (origin){
     if (typeof(origin)==='string'){
         client.publish('client/lastOrg',origin)
+        lastOrg = origin
     }
     else{
         console.log("origin must be string")
@@ -64,11 +65,13 @@ function handleGrckoKino (message) {
 function handleSlovak (message) {
     console.log("Slovak")
     console.log(message)
-    sendLastMessage('Slovak')
+    sendLastMessage()
+    sendLastOrigin('Slovak')
 }
 
 function handleClientExit (options, err) {
     if (err) {
+        console.log('err')
         console.log(err.stack)
     }
   

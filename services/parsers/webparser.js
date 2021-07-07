@@ -59,10 +59,10 @@ module.exports = {
                     const colName = database.collection(collectionName);
 
                     let listOfGames = []
-                    console.log(list)
+                    //console.log(list)
                     
                     for(const entry of list){
-                        console.log(entry)
+                        //console.log(entry)
                         const exists = await colName.findOne({drawTime: entry.drawTime})
                         if (exists != null){
                             console.log('entry exists')
@@ -78,7 +78,7 @@ module.exports = {
                             mqttServ.sendSlovak(JSON.stringify(jsonObj))
                         }
                     }
-                    console.log(listOfGames);
+                    //console.log(listOfGames);
                     if (listOfGames.length >= 1){
                         const result =  await colName.insertMany(listOfGames);
                         resolve(result);

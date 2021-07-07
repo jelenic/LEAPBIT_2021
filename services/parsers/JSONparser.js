@@ -45,7 +45,7 @@ module.exports = {
                             mqttServ.sendGrckoKino(JSON.stringify(jsonObj))
                         }
                     }
-                    console.log(listOfGames);
+                    //console.log(listOfGames);
                     if (listOfGames.length >= 1){
                         const result =  await colName.insertMany(listOfGames);
                         resolve(result);
