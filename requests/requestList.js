@@ -38,27 +38,41 @@ function getGrckoKinoR(){
     });
   }
 
-  function getGrckoKino(){
+  async function getGrckoKino(){
     let date = getDate()
     const dynamicJSONURL = 'https://api.opap.gr/draws/v3.0/1100/draw-date/' + date + '/' + date + '?limit=50&page=0'
-    JSONparseService.parseJSONFromURL(dynamicJSONURL, process.env.GKC).then((data) => {
+    try {
+        const data = await JSONparseService.parseJSONFromURL(dynamicJSONURL, process.env.GKC)
+        return data
+    } catch (error) {
+        throw(error)
+    }
+    /*JSONparseService.parseJSONFromURL(dynamicJSONURL, process.env.GKC).then((data) => {
         console.log("Grcko kino parsed")
         //emit event here
-        console.log(data)
+        //console.log(data)
+        return (data)
     }).catch((err) => {
-        res.send(err.message);
-    });
+        //res.send(err.message);
+        return (err)
+    });*/
   }
 
-  function getSlovakKino(){
+  async function getSlovakKino(){
     const URL = process.env.slovakKinoURL;
-    webparseService.parseWebFromURL(URL, process.env.GKC).then((data) => {
+    try {
+        const data = await webparseService.parseWebFromURL(URL, process.env.GKC)
+        return data
+    } catch (error) {
+        throw(error)
+    }
+    /*webparseService.parseWebFromURL(URL, process.env.GKC).then((data) => {
         console.log("Slovak kino parsed")
-        //emit event here
-        console.log(data)
+        //console.log(data)
+        return (data)
     }).catch((err) => {
-        res.send(err.message);
-    });
+        return (err);
+    });*/
   }
 
 function getDate(){
