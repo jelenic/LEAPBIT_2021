@@ -40,6 +40,10 @@ class WebSocketIO {
 
       });
 
+      global.on("loto", (data) => {
+        this.sendData(data)
+      })
+
 
       return this.io
   }

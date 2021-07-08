@@ -20,6 +20,29 @@ const { WebSocketIO } = require('./services/websocket/socketServer')
 
 const app = express();
 
+const listeners = {};
+global.on = function(eventName, cb){
+    if(listeners[eventName] == null){
+        listeners[eventName] = [];
+    }
+    listeners[eventName].push(cb);
+}
+
+global.un = function(eventName, cb){
+    if (listeners[eventName]!= null){
+        const index = listeners[eventName].indexOf(cb);
+          if (index > -1) {
+            listeners[eventName].splice(index, 1);
+          }
+    }
+}
+
+global.emit = (eventName, data) => {
+    for (const cb of listeners[eventName]){
+        cb(data)
+    }
+}
+
 
 app.use(cors());
 app.use('/api/', routes);
@@ -39,21 +62,21 @@ const server = app.listen(port, () => {
         console.log(data)
         if (data != null && data != "undefined"){
             console.log(data.ops)
-            WebSocketIO.sendData(data.ops)
-            mqttServ.sendGrckoKino(JSON.stringify(data.ops))
+            //WebSocketIO.sendData(data.ops)
+            //mqttServ.sendGrckoKino(JSON.stringify(data.ops))
         }
         //console.log(reqList.getGrckoKino())
-    }, 59000)
+    }, 5000)
     let loopSlovakKino = setInterval(async () => {
         let data = await reqList.getSlovakKino()
         console.log(data)
         if (data != null && data !== "undefined"){
             console.log(data.ops)
-            WebSocketIO.sendData(data.ops)
-            mqttServ.sendSlovak(JSON.stringify(data.ops))
+            //WebSocketIO.sendData(data.ops)
+            //mqttServ.sendSlovak(JSON.stringify(data.ops))
         }
         //console.log(reqList.getGrckoKino())
-    }, 60000)
+    }, 8000)
 
     //wsServ.initSocket(server)
     //let testDataLoop = setInterval(() => wsServ.sendData("test"), 5000)

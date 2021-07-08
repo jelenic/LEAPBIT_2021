@@ -56,6 +56,12 @@ module.exports = {
                     if (listOfGames.length >= 1){
                         const result =  await colName.insertMany(listOfGames);
                         console.log("existing" + String(counter))
+
+                        for (const game of listOfGames){
+                            global.emit("loto", game)
+                        }
+
+
                         resolve(result);
                     }
                     else{

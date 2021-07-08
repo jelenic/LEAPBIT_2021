@@ -1,5 +1,5 @@
-var mqtt = require('mqtt')
-var client  = mqtt.connect('mqtt://broker.hivemq.com')
+let mqtt = require('mqtt')
+let client  = mqtt.connect('mqtt://broker.hivemq.com')
 
 let msg = ''
 let org = ''
@@ -8,6 +8,10 @@ let connected = false
 client.on('connect', () => {
   client.subscribe('client/connected')
   client.subscribe('client/lastMsg')
+
+  global.on("loto", (data) => {
+    sendGrckoKino(JSON.stringify(data))
+  })
 })
 
 client.on('message', (topic, message) => {
