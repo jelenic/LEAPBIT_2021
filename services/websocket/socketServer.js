@@ -45,10 +45,10 @@ class WebSocketIO {
   }
 
   static sendData(data){
-  console.log("send data")
+  //console.log("send data")
     if (WebSocketIO.io != null){
       WebSocketIO.io.emit("data", data)
-      console.log("transmitting")
+      //console.log("transmitting")
       return(1)
     }
     return(0)

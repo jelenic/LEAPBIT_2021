@@ -6,7 +6,7 @@ const request = require(`request`);
 const { Connection } = require('../../Classes/Connection')
 
 
-const mqttServ = require('../websocket/mqtt')
+//const mqttServ = require('../websocket/mqtt')
 
 
 module.exports = {
@@ -31,11 +31,14 @@ module.exports = {
 
                     const database = Connection.db.db(process.env.dbName);
                     const colName = database.collection(collectionName);
+                    
+                    let counter = 0
 
                     for(const entry of content){
                         const exists = await colName.findOne({drawTime: entry.drawTime})
                         if (exists != null){
-                            console.log('entry exists')
+                            //console.log('entry exists')
+                            counter += 1;
                         }
                         else{
                             console.log('added');
@@ -46,12 +49,13 @@ module.exports = {
 
 
                             //send to mqtt
-                            mqttServ.sendGrckoKino(JSON.stringify(jsonObj))
+                            //mqttServ.sendGrckoKino(JSON.stringify(jsonObj))
                         }
                     }
                     //console.log(listOfGames);
                     if (listOfGames.length >= 1){
                         const result =  await colName.insertMany(listOfGames);
+                        console.log("existing" + String(counter))
                         resolve(result);
                     }
                     else{

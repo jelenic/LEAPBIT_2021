@@ -4,7 +4,9 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 
-const wsServ = require('./services/websocket/socketServer')
+//const wsServ = require('./services/websocket/socketServer')
+
+const mqttServ = require('./services/websocket/mqtt')
 
 
 const port = process.env.serverPORT || 4000;
@@ -38,6 +40,7 @@ const server = app.listen(port, () => {
         if (data != null && data != "undefined"){
             console.log(data.ops)
             WebSocketIO.sendData(data.ops)
+            mqttServ.sendGrckoKino(JSON.stringify(data.ops))
         }
         //console.log(reqList.getGrckoKino())
     }, 59000)
@@ -47,6 +50,7 @@ const server = app.listen(port, () => {
         if (data != null && data !== "undefined"){
             console.log(data.ops)
             WebSocketIO.sendData(data.ops)
+            mqttServ.sendSlovak(JSON.stringify(data.ops))
         }
         //console.log(reqList.getGrckoKino())
     }, 60000)

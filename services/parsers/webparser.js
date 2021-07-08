@@ -11,7 +11,7 @@ const { JSDOM } = jsdom;;
 const { Connection } = require('../../Classes/Connection')
 
 
-const mqttServ = require('../websocket/mqtt')
+//const mqttServ = require('../websocket/mqtt')
 
 module.exports = {
     parseWebFromURL: (URL, collectionName) => {
@@ -60,12 +60,15 @@ module.exports = {
 
                     let listOfGames = []
                     //console.log(list)
+
+                    let counter = 0
                     
                     for(const entry of list){
                         //console.log(entry)
                         const exists = await colName.findOne({drawTime: entry.drawTime})
                         if (exists != null){
-                            console.log('entry exists')
+                            //console.log('entry exists')
+                            counter += 1
                         }
                         else{
                             console.log('added');
@@ -75,12 +78,13 @@ module.exports = {
                             listOfGames.push(jsonObj)
 
                             //send to mqtt
-                            mqttServ.sendSlovak(JSON.stringify(jsonObj))
+                            //mqttServ.sendSlovak(JSON.stringify(jsonObj))
                         }
                     }
                     //console.log(listOfGames);
                     if (listOfGames.length >= 1){
                         const result =  await colName.insertMany(listOfGames);
+                        console.log("existing" + String(counter))
                         resolve(result);
                     }
                     else{
