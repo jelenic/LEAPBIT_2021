@@ -152,19 +152,18 @@ module.exports = {
                 const database = Connection.db.db(process.env.dbName);
                 const colName = database.collection(collectionName);
                 const listOfGames = [];
-                let counter = 0;
+                this.counter = 0;
 
                 const promises = [];
                 for (const entry of list)
                 {
-                    let someNumber = counter;
                     promises.push((async () =>
                     {
                         const exists = await colName.findOne({ drawTime: entry.drawTime });
                         if (exists != null)
                         {
                             // console.log('entry exists')
-                            someNumber += 1;
+                            this.counter += 1;
                         }
                         else
                         {
@@ -176,8 +175,6 @@ module.exports = {
                             listOfGames.push(jsonObj);
                         }
                     })());
-                    console.log(someNumber);
-                    counter = someNumber;
                 }
 
                 /* for (const entry of list)
@@ -201,11 +198,11 @@ module.exports = {
                 } */
                 // console.log(listOfGames);
                 await Promise.all(promises);
-                console.log(`existing${String(counter)}`);
+                console.log(`existing${String(this.counter)}`);
                 if (listOfGames.length >= 1)
                 {
                     const result = await colName.insertMany(listOfGames);
-                    counter = 0;
+                    this.counter = 0;
                     for (const game of listOfGames)
                     {
                         global.emit('loto', game);

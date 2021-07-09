@@ -1,11 +1,6 @@
 
 mvvm vs mvc
 
-set INterval timeout
-
-Linter pitaj Marka
-
-
 (
     () =>
     {
