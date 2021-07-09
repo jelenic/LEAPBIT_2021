@@ -4,3 +4,12 @@ mvvm vs mvc
 set INterval timeout
 
 Linter pitaj Marka
+
+
+(
+    () =>
+    {
+
+    }
+)() anonimne funkcije, 
+odmah se izvrsava kad se doda () na kraj

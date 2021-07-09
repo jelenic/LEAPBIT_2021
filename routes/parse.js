@@ -1,5 +1,6 @@
 const express = require('express');
 const parseCtrl = require('../controllers/parse');
+
 const router = express.Router();
 module.exports = router;
 
