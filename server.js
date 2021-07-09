@@ -4,11 +4,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 
-//const wsServ = require('./services/websocket/socketServer')
-
-const mqttServ = require('./services/websocket/mqtt')
-
-
 const port = process.env.serverPORT || 4000;
 const routes = require('./routes/index');
 
@@ -16,6 +11,7 @@ const reqList = require('./requests/requestList')
 
 const { Connection } = require('./Classes/Connection')
 const { WebSocketIO } = require('./services/websocket/socketServer')
+const { MQTT } = require('./services/websocket/mqtt')
 
 
 const app = express();
@@ -51,6 +47,7 @@ app.use('/api/', routes);
 const server = app.listen(port, () => {
     Connection.open()
     WebSocketIO.init(server)
+    MQTT.init()
 
 
     console.info(`Server started on port ${port}`);
@@ -62,8 +59,6 @@ const server = app.listen(port, () => {
         console.log(data)
         if (data != null && data != "undefined"){
             console.log(data.ops)
-            //WebSocketIO.sendData(data.ops)
-            //mqttServ.sendGrckoKino(JSON.stringify(data.ops))
         }
         //console.log(reqList.getGrckoKino())
     }, 5000)
@@ -72,8 +67,6 @@ const server = app.listen(port, () => {
         console.log(data)
         if (data != null && data !== "undefined"){
             console.log(data.ops)
-            //WebSocketIO.sendData(data.ops)
-            //mqttServ.sendSlovak(JSON.stringify(data.ops))
         }
         //console.log(reqList.getGrckoKino())
     }, 8000)

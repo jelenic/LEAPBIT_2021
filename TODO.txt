@@ -1,7 +1,3 @@
-globalna metoda u serveru za event koji ce slusat ws i mqtt
-ON UN Event listener/emitter
-
-
 
 mvvm vs mvc
 
@@ -9,5 +5,3 @@ set INterval timeout
 promise -> async await parseri
 
 Linter pitaj Marka
-
-mqtt to singleton

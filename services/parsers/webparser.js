@@ -75,10 +75,10 @@ module.exports = {
                             let jsonObj = {}
                             jsonObj["drawTime"] = entry.drawTime;
                             jsonObj["winningNumbers"] = entry.winningNumbers;
+                            jsonObj["type"] = "SlovakKino"
                             listOfGames.push(jsonObj)
 
-                            //send to mqtt
-                            //mqttServ.sendSlovak(JSON.stringify(jsonObj))
+
                         }
                     }
                     //console.log(listOfGames);

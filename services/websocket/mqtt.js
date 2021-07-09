@@ -1,7 +1,6 @@
 let mqtt = require('mqtt')
-let client  = mqtt.connect('mqtt://broker.hivemq.com')
 
-let msg = ''
+/*let msg = ''
 let org = ''
 let connected = false
 
@@ -44,21 +43,81 @@ function handleLastOrg (message) {
 
 
   function sendGrckoKino (msg) {
-    // can only open door if we're connected to mqtt and door isn't already open
     if (connected) {
-      // Ask the door to open
       client.publish('client/grckoKino', msg)
     }
   }
 
   function sendSlovak (msg) {
-    // can only open door if we're connected to mqtt and door isn't already open
     if (connected) {
-      // Ask the door to open
       client.publish('client/slovak', msg)
     }
   }
 
 module.exports = {
     sendGrckoKino, sendSlovak
+}*/
+
+class MQTT {
+  static init(){
+    if (this.client) return this.client
+    this.client  = mqtt.connect('mqtt://broker.hivemq.com')
+    this.client.on('connect', () => {
+      this.client.subscribe('client/connected')
+      this.client.subscribe('client/lastMsg')
+    
+      global.on("loto", (data) => {
+        this.sendData(JSON.stringify(data))
+      })
+    })
+    
+    this.client.on('message', (topic, message) => {
+        switch (topic) {
+            case 'client/connected':
+                return this.handleClientConnected(message)
+            case 'client/lastMsg':
+                return this.handleClientLastMsg(message)
+            case 'client/lastOrg':
+                return this.handleLastOrg(message)
+          }
+          console.log('No handler for topic %s', topic)
+    })
+
+    return this.client
+  }
+  static handleClientConnected (message) {
+    console.log('client connected status %s', message)
+    this.connected = (message.toString() === 'true')
+  }
+  
+  static handleClientLastMsg (message) {
+    this.msg = message
+    console.log('client lastMsgReceived: %s', message)
+    }
+
+  static handleLastOrg (message) {
+    this.org = message
+    console.log('client lastOrgReceived: %s', message)
+    }
+
+
+  static sendData (data){
+    if (this.connected){
+      if (data.type === "GrckoKino"){
+        this.client.publish('client/grckoKino', data)
+      }
+      else{
+        this.client.publish('client/slovak', data)
+      }
+    }
+  }
+ 
+
 }
+MQTT.msg = ''
+MQTT.org = ''
+MQTT.connected = false
+MQTT.client = null
+
+
+module.exports = { MQTT }

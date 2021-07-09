@@ -51,7 +51,12 @@ class WebSocketIO {
   static sendData(data){
   //console.log("send data")
     if (WebSocketIO.io != null){
-      WebSocketIO.io.emit("data", data)
+      if (data.type === "GrckoKino"){
+        WebSocketIO.io.emit("data", data)
+      }
+      else{
+        WebSocketIO.io.emit("data", data)
+      }
       //console.log("transmitting")
       return(1)
     }

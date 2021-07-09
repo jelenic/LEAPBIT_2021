@@ -45,11 +45,9 @@ module.exports = {
                             let jsonObj = {}
                             jsonObj["drawTime"] = entry.drawTime;
                             jsonObj["winningNumbers"] = entry.winningNumbers.list;
+                            jsonObj["type"] = "GrckoKino"
                             listOfGames.push(jsonObj)
 
-
-                            //send to mqtt
-                            //mqttServ.sendGrckoKino(JSON.stringify(jsonObj))
                         }
                     }
                     //console.log(listOfGames);
