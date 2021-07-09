@@ -61,7 +61,7 @@ function getGrckoKinoR(){
   async function getSlovakKino(){
     const URL = process.env.slovakKinoURL;
     try {
-        const data = await webparseService.parseWebFromURL(URL, process.env.GKC)
+        const data = await webparseService.parseWebFromURL(URL, process.env.SKC)
         return data
     } catch (error) {
         throw(error)
@@ -73,6 +73,27 @@ function getGrckoKinoR(){
     }).catch((err) => {
         return (err);
     });*/
+  }
+
+  async function getGrckoKinoAsync() {
+    let date = getDate()
+    const dynamicJSONURL = 'https://api.opap.gr/draws/v3.0/1100/draw-date/' + date + '/' + date + '?limit=50&page=0'
+    try {
+        const data = await JSONparseService.parseJSONFromURLAsync(dynamicJSONURL, process.env.GKC)
+        return data
+    } catch (error) {
+        throw(error)
+    }
+  }
+
+  async function getSlovakKinoAsync(){
+    const URL = process.env.slovakKinoURL;
+    try {
+        const data = await webparseService.parseWebFromURLAsync(URL, process.env.SKC)
+        return data
+    } catch (error) {
+        throw(error)
+    }
   }
 
 function getDate(){
@@ -88,5 +109,5 @@ function getDate(){
 }
 
 module.exports = {
-    getGrckoKinoR, getSlovakR, getGrckoKino, getSlovakKino
+    getGrckoKinoR, getSlovakR, getGrckoKino, getSlovakKino, getGrckoKinoAsync, getSlovakKinoAsync
 }

@@ -2,6 +2,5 @@
 mvvm vs mvc
 
 set INterval timeout
-promise -> async await parseri
 
 Linter pitaj Marka

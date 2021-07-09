@@ -55,7 +55,7 @@ const server = app.listen(port, () => {
     //let requestLoopSlovak = setInterval(reqList.getSlovakR, 100000)
 
     let loopGrckoKino = setInterval(async() => {
-        let data = await reqList.getGrckoKino()
+        let data = await reqList.getGrckoKinoAsync()
         console.log(data)
         if (data != null && data != "undefined"){
             console.log(data.ops)
@@ -63,7 +63,7 @@ const server = app.listen(port, () => {
         //console.log(reqList.getGrckoKino())
     }, 5000)
     let loopSlovakKino = setInterval(async () => {
-        let data = await reqList.getSlovakKino()
+        let data = await reqList.getSlovakKinoAsync()
         console.log(data)
         if (data != null && data !== "undefined"){
             console.log(data.ops)
