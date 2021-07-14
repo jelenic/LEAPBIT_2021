@@ -91,18 +91,17 @@ module.exports = {
                 const { content } = jsonResponse;
                 const database = Connection.db.db(process.env.dbName);
                 const colName = database.collection(collectionName);
-                let counter = 0;
+                this.counter = 0;
 
                 const promises = [];
                 for (const entry of content)
                 {
-                    let someNumber = 0;
                     promises.push((async () =>
                     {
                         const exists = await colName.findOne({ drawTime: entry.drawTime });
                         if (exists != null)
                         {
-                            someNumber += 1;
+                            this.counter += 1;
                         }
                         else
                         {
@@ -114,8 +113,6 @@ module.exports = {
                             listOfGames.push(jsonObj);
                         }
                     })());
-                    console.log(someNumber);
-                    counter = someNumber;
                     /* const exists = await colName.findOne({ drawTime: entry.drawTime });// ovaj dio je greska
                     if (exists != null)
                     {
@@ -133,7 +130,7 @@ module.exports = {
                 }
                 // console.log(promises);
                 await Promise.all(promises);
-                console.log(`existing${String(counter)}`);
+                console.log(`existing${String(this.counter)}`);
                 if (listOfGames.length >= 1)
                 {
                     const result = await colName.insertMany(listOfGames);
